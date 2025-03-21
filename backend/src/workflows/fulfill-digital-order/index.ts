@@ -14,7 +14,6 @@ type FulfillDigitalOrderWorkflowInput = {
 export const fulfillDigitalOrderWorkflow = createWorkflow(
   "fulfill-digital-order",
   ({ id }: FulfillDigitalOrderWorkflowInput) => {
-    // @ts-expect-error
     const { data: digitalProductOrders } = useQueryGraphStep({
       entity: "digital_product_order",
       fields: [
@@ -29,10 +28,9 @@ export const fulfillDigitalOrderWorkflow = createWorkflow(
       options: {
         throwIfKeyNotFound: true,
       },
-    })
+    }) as any
 
     sendDigitalOrderNotificationStep({
-      // @ts-expect-error
       digital_product_order: digitalProductOrders[0],
     })
 
