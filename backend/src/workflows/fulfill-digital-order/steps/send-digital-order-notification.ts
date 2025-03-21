@@ -34,8 +34,7 @@ export const sendDigitalOrderNotificationStep = createStep(
             .filter((media) => media.type === MediaType.MAIN)
             .map(async (media) => {
               medias.push(
-                // @ts-expect-error
-                (await fileModuleService.retrieveFile(media.fileId)).url
+                (await fileModuleService.retrieveFile(media.fileId)).url as never
               )
             })
         )
