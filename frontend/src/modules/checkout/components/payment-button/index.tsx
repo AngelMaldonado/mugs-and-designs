@@ -83,6 +83,14 @@ const StripePaymentButton = ({
 
     const clientSecret = paymentSession?.data?.client_secret as string
 
+    // Submit the form first
+    const { error: submitError } = await elements.submit()
+    if (submitError) {
+      setErrorMessage(submitError.message || null)
+      setSubmitting(false)
+      return
+    }
+
     await stripe
       .confirmPayment({
         elements,
