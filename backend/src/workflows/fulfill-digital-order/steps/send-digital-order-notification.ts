@@ -24,18 +24,18 @@ export const sendDigitalOrderNotificationStep = createStep(
     const fileModuleService: IFileModuleService = container.resolve(
       Modules.FILE
     )
+    const backendUrl = process.env.MEDUSA_BACKEND_URL ?? "http://localhost:9000"
 
     const notificationData = await Promise.all(
       digitalProductOrder.products.map(async (product) => {
-        const medias = []
+        const medias: string[] = []
 
         await Promise.all(
           product.medias
             .filter((media) => media.type === MediaType.MAIN)
             .map(async (media) => {
-              medias.push(
-                (await fileModuleService.retrieveFile(media.fileId)).url as never
-              )
+              const fileUrl = new URL((await fileModuleService.retrieveFile(media.fileId)).url as string)
+              medias.push(`${backendUrl}${fileUrl.pathname}`)
             })
         )
 
