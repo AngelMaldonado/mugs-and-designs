@@ -9,7 +9,9 @@ export const POST = async (
   req: AuthenticatedMedusaRequest,
   res: MedusaResponse
 ) => {
+  // @ts-ignore
   const access = req.params.type === "main" ? "private" : "public"
+  // @ts-ignore
   const input = req.files as Express.Multer.File[]
 
   if (!input?.length) {
